@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 
 export type UniversalButtonPropsType={
     callback:()=>void
@@ -7,7 +7,7 @@ export type UniversalButtonPropsType={
 
 
 
-export const UniversalButton = (props:UniversalButtonPropsType) => {
+export const UniversalButton = memo((props:UniversalButtonPropsType) => {
     let{callback,nameButton}=props
     const onClickHandler=()=>{
         callback()
@@ -15,5 +15,5 @@ export const UniversalButton = (props:UniversalButtonPropsType) => {
     return (
         <button onClick={onClickHandler}>{nameButton}</button>
     );
-};
+});
 

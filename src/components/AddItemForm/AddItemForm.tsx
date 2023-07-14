@@ -1,26 +1,21 @@
-import React, {ChangeEvent, useState,KeyboardEvent} from 'react';
+import React, {ChangeEvent, useState, KeyboardEvent, memo, useCallback} from 'react';
 
 export type AddItemFormPropsType={
     callback:(value:string)=>void
 }
 
 
-export const AddItemForm = (props:AddItemFormPropsType) => {
+export const AddItemForm = memo((props:AddItemFormPropsType) => {
 let{callback}=props
     const[value,setValue]=useState<string>("")
     const [error,setError]=useState<string|null>(null)
 
-    const onChangeHandler=(e:ChangeEvent<HTMLInputElement>)=>{
+    const onChangeHandler= (e:ChangeEvent<HTMLInputElement>)=>{
         setValue(e.currentTarget.value)
         setError(null)
     }
-    const onKeyHandler=(e:KeyboardEvent<HTMLInputElement>)=>{
-    if (e.currentTarget.value==="Enter"){
-        onClickHandler()
-    }
 
-    }
-    const onClickHandler=()=>{
+    const onClickHandler=useCallback(()=>{
         if(value.trim()!==""){
             callback(value.trim())
             setValue("")
@@ -29,8 +24,13 @@ let{callback}=props
         else{
             setError("No corrected")
         }
-    }
+    },[callback,value])
+    const onKeyHandler=useCallback((e:KeyboardEvent<HTMLInputElement>)=>{
+        if (e.key==="Enter"){
+            onClickHandler()
+        }
 
+    },[onClickHandler])
     return (
         <div>
             <input type="text" onChange={onChangeHandler} onKeyDown={onKeyHandler} value={value}/>
@@ -38,5 +38,5 @@ let{callback}=props
             {error && <span>{error}</span>}
         </div>
     );
-};
+});
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo, useCallback} from 'react';
 import {UniversalButton} from "../UniversalButton/UniversalButton";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Tasks} from "../Tasks/Tasks";
@@ -14,7 +14,7 @@ export type TodoPropsType = {
 }
 
 
-export const Todo = (props: TodoPropsType) => {
+export const Todo = memo((props: TodoPropsType) => {
     let {todolistId, title, filterStatus} = props
     const dispatch = useDispatch()
 
@@ -22,9 +22,9 @@ export const Todo = (props: TodoPropsType) => {
     const removeTodolist = () => {
         dispatch(removeTodolistAC(todolistId))
     }
-    const addNewTask = (newTaskTitle: string) => {
+    const addNewTask = useCallback((newTaskTitle: string) => {
         dispatch(addNewTaskAC(todolistId, newTaskTitle))
-    }
+    },[dispatch])
     const newTitleTodo=(newTodoTitle:string)=>{
 dispatch(newTitleTodoAC(todolistId,newTodoTitle))
     }
@@ -44,5 +44,5 @@ dispatch(newStatusFilterAC(todolistId,newStatus))
 
         </div>
     );
-};
+});
 

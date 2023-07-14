@@ -1,11 +1,11 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, memo, useState} from 'react';
 
 export type EditableSpanPropsType = {
     callback: (newTitle: string) => void;
     oldTitle: string;
 };
 
-export const EditableSpan = (props: EditableSpanPropsType) => {
+export const EditableSpan = memo((props: EditableSpanPropsType) => {
     const {callback, oldTitle} = props;
     const [editStatus, setEditStatus] = useState<boolean>(false);
     const [title, setTitle] = useState<string>(oldTitle);
@@ -45,4 +45,4 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
             <span onDoubleClick={OnClickHandler}>{oldTitle}</span>
         )
     );
-};
+});
